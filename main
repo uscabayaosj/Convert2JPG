@@ -1,3 +1,6 @@
+import logging
+from google.cloud import tasks_v2
+from google.protobuf import duration_pb2
 import os
 from PIL import Image
 import glob
@@ -58,10 +61,21 @@ def process_directory(input_dir, output_dir, quality=85):
         convert_png_to_jpg(png_file, output_path, quality)
         print(f"Converted {file_name} to JPG")
 
+def run_conversion():
+    input_directory = "/tmp/input_files"  # Use a writable directory in App Engine
+    output_directory = "/tmp/output_files"
+    quality = 85  # Adjust this value to change the quality of the output JPGs
+
+    process_directory(input_directory, output_directory, quality)
+    logging.info("Conversion completed!")
+
 if __name__ == "__main__":
+    # For local testing
     input_directory = "/Users/ulyssescabayao/jpgcreator/input_files"
     output_directory = "output_files"
     quality = 85  # Adjust this value to change the quality of the output JPGs
 
-    process_directory(input_directory, output_directory, quality)
-    print("Conversion completed!")
+    # Uncomment for local testing
+    # process_directory(input_directory, output_directory, quality)
+
+    run_conversion()

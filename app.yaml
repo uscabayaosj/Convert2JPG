@@ -1,0 +1,17 @@
+runtime: python39  # or python310 for Python 3.10
+service: image-converter
+
+handlers:
+- url: /.*
+  script: auto
+
+entrypoint: python main.py
+
+# Add this section for background tasks
+basic_scaling:
+  max_instances: 1
+  idle_timeout: 10m
+
+# Add this for Cloud Tasks integration (optional)
+env_variables:
+  GOOGLE_CLOUD_PROJECT: your-project-id
